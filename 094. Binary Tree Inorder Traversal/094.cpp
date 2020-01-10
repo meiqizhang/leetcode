@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-
+#include <stack>
 using namespace std;
 
 
@@ -31,6 +31,7 @@ struct TreeNode
 class Solution 
 {
 public:
+#if 0
 	vector<int> inorderTraversal(TreeNode* root)
 	{
 		vector<int> result;
@@ -39,7 +40,6 @@ public:
 
 		result = this->inorderTraversal(root->left);
 		
-		//cout << root->val << " ";
 		result.push_back(root->val);
 
 		auto res = this->inorderTraversal(root->right);
@@ -48,12 +48,37 @@ public:
 
 		return result;
 	}
+#else
+    vector<int> inorderTraversal(TreeNode* root)
+    {
+        vector<int> result;
+        stack<TreeNode *> st;
+        TreeNode *p = root;
+
+        while (!st.empty() || p != nullptr)
+        {
+            if (p != nullptr)
+            {
+                st.push(p);
+                p = p->left;
+            }
+            else
+            {
+                p = st.top(), st.pop();
+                result.push_back(p->val);
+                p = p->right;
+            }
+        }
+        return result;
+    }
+#endif
 };
 
 int main()
 {
 	auto sol = new Solution();
 	TreeNode *root = new TreeNode(1);
+    root->left = new TreeNode(4);
 	root->right = new TreeNode(2);
 	root->right->left = new TreeNode(3);
 
