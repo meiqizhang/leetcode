@@ -37,7 +37,7 @@ public:
 		}
 		cout << endl;
 	}
-
+#if 0
 	vector<int> preorderTraversal(TreeNode* root)
 	{
 		vector<int> result;
@@ -67,6 +67,31 @@ public:
         }
         return result;
 	}
+#else
+    vector<int> preorderTraversal(TreeNode* root)
+    {
+        vector<int> result;
+        stack<TreeNode *> st;
+        TreeNode *p = root;
+
+        while (!st.empty() || p != nullptr)
+        {
+            if (p != nullptr)
+            {
+                result.push_back(p->val);
+                st.push(p);
+                p = p->left;
+            }
+            else
+            {
+                p = st.top(), st.pop();
+                p = p->right;
+            }
+        }
+
+        return result;
+    }
+#endif
 };
 
 int main()
