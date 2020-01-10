@@ -39,7 +39,7 @@ public:
         }
         cout << endl;
     }
-
+#if 1
     vector<int> postorderTraversal(TreeNode* root)
     {
         vector<int> result;
@@ -55,7 +55,6 @@ public:
             stack.push(p);
         }
 
-        TreeNode *r = root;
         map<TreeNode*, bool> visit;
 
         while (!stack.empty())
@@ -68,17 +67,40 @@ public:
                 {
                     stack.push(p);
                 }
-                r = node;
                 continue;
             }
             stack.pop();
             visit[node] = true;
-           // cout << node->val << endl;
             result.push_back(node->val);
         }
 
         return result;
     }
+#else
+    vector<int> postorderTraversal(TreeNode* root)
+    {
+        vector<int> result;
+        stack<TreeNode *> st;
+        TreeNode *p = root;
+
+        while (!st.empty() || p != nullptr)
+        {
+            if (p != nullptr)
+            {
+                st.push(p);
+                result.insert(result.begin(), p->val);
+                p = p->right;
+            }
+            else
+            {
+                p = st.top(), st.pop();
+                p = p->left;
+            }
+        }
+
+        return result;
+    }
+#endif
 };
 
 int main()
