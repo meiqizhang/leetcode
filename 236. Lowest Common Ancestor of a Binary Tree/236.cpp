@@ -5,9 +5,13 @@
 According to the definition of LCA on Wikipedia : ¡°The lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants(where we allow a node to be a descendant of itself).¡±
 
 Given the following binary tree : root = [3, 5, 1, 6, 2, 0, 8, null, null, 7, 4]
-
-
-
+     _3_
+    /   \
+   5     1
+  / \   / \
+ 6   2 0   8
+    / \
+   7   4
 
 Example 1 :
 
@@ -34,13 +38,25 @@ class Solution
 {
 public:
 	TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q)
-	{
+    {
+        if (root == nullptr) return nullptr;
+        if (root == p || root == q)
+        {
+            return root;
+        }
 
-	}
+        auto left = lowestCommonAncestor(root->left, p, q);
+        auto right = lowestCommonAncestor(root->right, p, q);
+
+        if (left != nullptr && right != nullptr) return root;
+
+        //return left != nullptr ? left : right;
+        return lowestCommonAncestor(left != nullptr ? left : right, p, q);
+    }
 };
 
 int main()
 {
 	auto sol = new Solution();
-	sol->lowestCommonAncestor();
+	//sol->lowestCommonAncestor();
 }
