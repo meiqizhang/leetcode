@@ -30,7 +30,7 @@ public:
         {
             if (status.find(nums[i]) != status.end())
             {
-                if (i - status[nums[i]] <= k)
+                if (i - status[nums[i]] <= k) //这里有个dp的思想，i-x于i的差大于k，那么i-x与i+t的差肯定大于k，所以更新下标记录
                 {
                     return true;
                 }
