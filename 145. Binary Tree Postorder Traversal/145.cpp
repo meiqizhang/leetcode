@@ -39,7 +39,6 @@ public:
         }
         cout << endl;
     }
-#if 1
     vector<int> postorderTraversal(TreeNode* root)
     {
         vector<int> result;
@@ -48,59 +47,34 @@ public:
             return result;
         }
 
-        stack<TreeNode *>stack;
+        using StackNode = pair<TreeNode *, bool>;
+        stack<StackNode> st;
+        StackNode p = make_pair(root, false);
 
-        for (auto p = root; p != nullptr; p = p->left)
+        while (!st.empty() || p.first != nullptr)
         {
-            stack.push(p);
-        }
-
-        map<TreeNode*, bool> visit;
-
-        while (!stack.empty())
-        {
-            auto node = stack.top();
-
-            if (node->right != nullptr && !visit[node->right])
-            {
-                for (auto p = node->right; p != nullptr; p = p->left)
-                {
-                    stack.push(p);
-                }
-                continue;
-            }
-            stack.pop();
-            visit[node] = true;
-            result.push_back(node->val);
-        }
-
-        return result;
-    }
-#else
-    vector<int> postorderTraversal(TreeNode* root)
-    {
-        vector<int> result;
-        stack<TreeNode *> st;
-        TreeNode *p = root;
-
-        while (!st.empty() || p != nullptr)
-        {
-            if (p != nullptr)
+            if (p.first != nullptr)
             {
                 st.push(p);
-                result.insert(result.begin(), p->val);
-                p = p->right;
+                p = make_pair(p.first->left, false);
             }
             else
             {
-                p = st.top(), st.pop();
-                p = p->left;
+                StackNode &top = st.top();
+                if (!top.second && top.first->right != nullptr)
+                {
+                    top.second = true;
+                    p = make_pair(top.first->right, false);
+                }
+                else
+                {
+                    result.push_back(top.first->val);
+                    st.pop();
+                }
             }
         }
-
         return result;
     }
-#endif
 };
 
 int main()
