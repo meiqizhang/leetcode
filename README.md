@@ -1,7 +1,8 @@
 #leetcode 刷题
 
-    
+
 ###单链表中间节点
+
 	if(head == NULL || head -> next == NULL) return head == NULL ? NULL : new TreeNode(head -> val);
 	// 找到中间节点
 	ListNode *f = head -> next -> next；
